@@ -1,0 +1,31 @@
+/* ensure all pages have Bootstrap CSS */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.md-container {
+  max-width: 800px;
+  padding-top: 2rem;
+}
+
+#dropdown-test::after {
+  display: none;
+}
+
+.cntr-footer {
+  height: 80px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #ccc;
+}
+.sml-logo {
+  height: 1em;
+  margin-left: 10px;
+}
+.btn-circle.btn-xl {
+  width: 50px;
+  height: 50px;
+  border-radius: 35px;
+  font-size: 24px;
+  border: none;
+}

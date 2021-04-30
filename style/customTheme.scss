@@ -1,0 +1,8 @@
+//Your customizations must come before bootstrap import
+
+$primary: #42a5f5;
+#dropdown-basic::after {
+  display: none;
+}
+
+@import "~bootstrap/scss/bootstrap.scss";

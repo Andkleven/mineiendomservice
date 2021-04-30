@@ -1,0 +1,31 @@
+{
+  "name": "with-firebase",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "bootstrap": "^5.0.0-beta3",
+    "firebase": "7.17.0",
+    "firebase-admin": "9.0.0",
+    "next": "latest",
+    "next-offline": "^5.0.5",
+    "next-pwa": "^5.2.15",
+    "react": "^16.13.0",
+    "react-bootstrap": "^1.5.2",
+    "react-dom": "^16.13.0",
+    "sass": "^1.32.11"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^17.0.4",
+    "typescript": "^4.2.4"
+  }
+}
