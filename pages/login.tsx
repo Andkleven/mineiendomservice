@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, FC } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/auth.tsx";
 import { Form, Button } from "react-bootstrap";
@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import GoogleLogin from "../components/GoogleLogin";
 
-export default function Login() {
+const Login: FC = () => {
   const router = useRouter();
   const { user, signInWithEmailAndPassword } = useAuth();
   const handleLoginPassword = useCallback(
@@ -66,11 +66,12 @@ export default function Login() {
             </Button>
           </Form>
           <GoogleLogin />
-          <div align="center" style={{ marginTop: "10px" }}>
+          <div style={{ marginTop: "10px", textAlign: "center" }}>
             <a href={`/signUp`}>Sign Up</a>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+export default Login;

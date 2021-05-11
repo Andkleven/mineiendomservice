@@ -15,10 +15,9 @@ export default function NavbarCustom() {
       }}
     >
       <Nav>
-        <Link href="/">Home</Link>
-      </Nav>
-      <Nav>
-        <Link href="/todo">Caretaker</Link>
+        <Link href="/">Home</Link>{" "}
+        <Link href="/janitorAssignment">Caretaker</Link>{" "}
+        <Link href="/building">Building</Link>
       </Nav>
 
       <Nav>

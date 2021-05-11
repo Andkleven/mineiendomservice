@@ -1,8 +1,8 @@
-import { useCallback } from "react";
-import { useAuth } from "../context/auth.tsx";
+import { useCallback, FC } from "react";
+import { useAuth } from "../context/auth";
 import Button from "react-bootstrap/Button";
 
-export default function GoogleLogin() {
+const GoogleLogin: FC = () => {
   const { signInWithGoogle } = useAuth();
   const handleLoginGoogle = useCallback(async (event) => {
     event.preventDefault();
@@ -19,4 +19,5 @@ export default function GoogleLogin() {
       </Button>
     </div>
   );
-}
+};
+export default GoogleLogin;

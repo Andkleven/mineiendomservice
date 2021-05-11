@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, FC } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import AddCard from "./AddCard";
-import Todo from "./Todo";
+import Buildings from "../components/Buildings";
+import AddBuilding from "../components/AddBuilding";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-export default function TodoList() {
+const Building: FC = () => {
   const [addCard, setAddCard] = useState(false);
   return (
     <div
@@ -45,10 +45,12 @@ export default function TodoList() {
               <FontAwesomeIcon icon={addCard ? faMinus : faPlus} />
             </Button>
           </div>
-          {addCard ? <AddCard setAddCard={setAddCard} /> : null}
-          <Todo />
+          {addCard ? <AddBuilding setAddCard={setAddCard} /> : null}
+          <Buildings />
         </Container>
       </div>
     </div>
   );
-}
+};
+
+export default Building;
