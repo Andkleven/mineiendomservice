@@ -4,16 +4,26 @@ import firebase from "../firebase/clientApp";
 
 export default function usePagination({
   limit = 15,
-  query,  
+  query,
 }: {
-  query: firebase.firestore.Query<firebase.firestore.DocumentData>;
+  query: firebase.firestore.Query<firebase.firestore.DocumentData> | null;
   limit?: number;
 }): [unknown[], boolean] {
-  const [assignments, { loaded, hasMore, loadingMore, loadMore }, error] =
-    usePaginationData(query, {
-      idField: "id",
-      limit,
-    });
+  const [data, { loaded, hasMore, loadingMore, loadMore }, error] = query
+    ? usePaginationData(query, {
+        idField: "id",
+        limit,
+      })
+    : [
+        [],
+        {
+          loaded: true,
+          hasMore: false,
+          loadingMore: false,
+          loadMore: () => {},
+        },
+        null,
+      ];
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, {
       passive: true,
@@ -31,5 +41,5 @@ export default function usePagination({
       loadMore();
     }
   };
-  return [assignments, loaded];
+  return [data, loaded];
 }

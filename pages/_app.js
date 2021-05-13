@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
   return (
     <AuthContext>
       <Head>
-        <title>Ola</title>
+        <title>Mineiendomservice</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavbarCustom />

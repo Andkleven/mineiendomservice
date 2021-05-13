@@ -1,6 +1,6 @@
 import firebase from "../firebase/clientApp";
 
-export type Building = {
+export type Resident = {
   id: string;
   createdAt: firebase.firestore.FieldValue;
   name: string;

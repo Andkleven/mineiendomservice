@@ -1,27 +1,32 @@
 import { FC } from "react";
 import Card from "react-bootstrap/Card";
-import { buildingQuery, buildingRef } from "../fetchData/getData";
+import { residentQuery, residentRef } from "../fetchData/getData";
 import usePagination from "../hooks/usePagination";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useRouter } from "next/router";
-import { Building } from "../types/types";
+import { Resident } from "../types/types";
 import Spinner from "react-bootstrap/Spinner";
+import { useAuth } from "../context/auth";
 
-const Buildings: FC = () => {
+const Residents: FC = () => {
   const router = useRouter();
-  const [buildings, loaded] = usePagination({
-    query: buildingQuery,
+  const { user } = useAuth();
+  const [residents, loaded] = usePagination({
+    query: residentQuery,
     limit: 15,
   });
-  const handelSubmit = async (id: string, e) => {
-    await buildingRef
+  const handelSubmit = async (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    await residentRef
       .doc(id)
       .set({ active: e.target.checked }, { merge: true });
   };
   return (
     <>
-      {buildings?.map((building: Building, index: number) => {
+      {residents?.map((resident: Resident, index: number) => {
         return (
           <Card
             key={index}
@@ -40,24 +45,24 @@ const Buildings: FC = () => {
                     width: "100%",
                   }}
                   onClick={() =>
-                    router.push(`buildingAssignment/${building.id}`)
+                    router.push(`janitorAssignment/${resident.id}`)
                   }
                 >
-                  {building.name}
+                  {resident.name}
                 </Button>
               </Card.Title>
-              {(building.address ||
-                building.municipality ||
-                building.zipCode) && (
+              {(resident.address ||
+                resident.municipality ||
+                resident.zipCode) && (
                 <Card.Body>
-                  {building.address && (
-                    <Card.Title>Adresse {building.address}</Card.Title>
+                  {resident.address && (
+                    <Card.Title>Adresse {resident.address}</Card.Title>
                   )}
-                  {building.municipality && (
-                    <Card.Title>Kommune {building.municipality}</Card.Title>
+                  {resident.municipality && (
+                    <Card.Title>Kommune {resident.municipality}</Card.Title>
                   )}
-                  {building.zipCode && (
-                    <Card.Title>Postnummer {building.zipCode}</Card.Title>
+                  {resident.zipCode && (
+                    <Card.Title>Postnummer {resident.zipCode}</Card.Title>
                   )}
                 </Card.Body>
               )}
@@ -70,11 +75,11 @@ const Buildings: FC = () => {
               >
                 <Form.Check
                   defaultChecked={
-                    building.active === undefined ? true : building.active
+                    resident.active === undefined ? true : resident.active
                   }
                   type="checkbox"
                   label="Aktiv"
-                  onChange={(e) => handelSubmit(building.id, e)}
+                  onChange={(e) => handelSubmit(resident.id, e)}
                 />
               </div>
             </Card.Header>
@@ -94,4 +99,4 @@ const Buildings: FC = () => {
   );
 };
 
-export default Buildings;
+export default Residents;

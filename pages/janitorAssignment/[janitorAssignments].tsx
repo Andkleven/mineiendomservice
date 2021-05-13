@@ -1,32 +1,23 @@
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import {
-  assignmentQuery,
-  assignmentRef,
-  buildingRef,
-} from "../../fetchData/getData";
-import Container from "react-bootstrap/Container";
+import { assignmentQuery, assignmentRef } from "../../fetchData/getData";
 import usePagination from "../../hooks/usePagination";
-import { Assignment } from "../types/types";
-import { useDocumentOnce } from "react-firebase-hooks/firestore";
+import { Assignment } from "../../types/types";
 import Spinner from "react-bootstrap/Spinner";
 
-const JanitorAssignment: React.FC<{
-  buildingId: string;
-}> = ({ buildingId }) => {
+const JanitorAssignment: React.FC<{ residentId: string }> = ({
+  residentId,
+}) => {
   const [janitorAssignments, loaded] = usePagination({
-    query: assignmentQuery(buildingId),
+    query: assignmentQuery(residentId),
     limit: 5,
   });
-  const [snapshot, loading, error] = useDocumentOnce(
-    buildingRef.doc(buildingId)
-  );
 
   const handelSubmit = async (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    await assignmentRef(buildingId)
+    await assignmentRef(residentId)
       .doc(id)
       .set({ done: e.target.checked }, { merge: true });
   };
@@ -93,7 +84,7 @@ export default JanitorAssignment;
 export async function getServerSideProps({ query }) {
   return {
     props: {
-      buildingId: query.janitorAssignment,
+      janitorId: query.janitorAssignments,
     },
   };
 }

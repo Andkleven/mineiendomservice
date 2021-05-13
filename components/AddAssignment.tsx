@@ -16,11 +16,9 @@ const uuid = require("uuid/v1");
 
 const AddAssignment: FC<{
   setAddCard: Dispatch<SetStateAction<boolean>>;
-  buildingId: string;
-}> = ({ setAddCard, buildingId }) => {
-  const {
-    user: { uid },
-  } = useAuth();
+  residentId: string;
+}> = ({ setAddCard, residentId }) => {
+  const { user } = useAuth();
   const formRef: any = useRef();
   const [image, setImage] = useState(null);
   const submit = useCallback(
@@ -31,7 +29,7 @@ const AddAssignment: FC<{
         title: title.value,
         about: about.value,
         place: place.value,
-        creator: uid,
+        creator: user?.uid,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
       if (image !== null) {
@@ -51,7 +49,7 @@ const AddAssignment: FC<{
           },
           () => {
             uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-              assignmentRef(buildingId).add({
+              assignmentRef(residentId).add({
                 ...data,
                 imageUrl: url,
               });
@@ -60,7 +58,7 @@ const AddAssignment: FC<{
           }
         );
       } else {
-        assignmentRef(buildingId).add(data);
+        assignmentRef(residentId).add(data);
       }
       setAddCard(false);
       formRef.reset;

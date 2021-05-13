@@ -9,8 +9,8 @@ import Router from "next/router";
 import firebase from "../firebase/clientApp";
 
 type Claims = { admin: boolean } & (
-  | { janitor: boolean; building?: boolean }
-  | { janitor?: boolean; building: boolean }
+  | { janitor: boolean; residentId?: boolean }
+  | { janitor?: boolean; residentId: boolean }
 );
 
 type User = {
@@ -22,8 +22,7 @@ type User = {
   token: string;
   expirationTime: string;
   claims: Claims;
-  firm: string;
-  building?: string;
+  residentId?: string;
 };
 
 type EmailAndPassword = {
@@ -34,8 +33,7 @@ type EmailAndPassword = {
 
 type SignUpEmailAndPassword = EmailAndPassword & {
   claims: Claims;
-  firm: string;
-  building?: string;
+  residentId?: string;
 };
 
 type UpdateProfile = {
@@ -77,15 +75,25 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
 export const useAuth = () => useContext(AuthContext);
 
+async function format(rawUser: firebase.User | boolean) {
+  if (rawUser) {
+    const user = await formatUser(rawUser as firebase.User);
+    return user;
+  } else {
+    if (!["/login"].includes(Router.asPath)) {
+      Router.push("/login");
+    }
+    return false;
+  }
+}
+
 function useFirebaseAuth(): Context {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const handleUser = async (rawUser: firebase.User | boolean) => {
     if (rawUser) {
-      const user = await formatUser(rawUser as firebase.User);
-      setUser(user);
-
+      const userData = await formatUser(rawUser as firebase.User);
+      setUser(userData);
       setLoading(false);
       return user;
     } else {
@@ -122,12 +130,11 @@ function useFirebaseAuth(): Context {
     email,
     password,
     claims,
-    firm,
-    building = undefined,
+    residentId = undefined,
   }: SignUpEmailAndPassword) => {
     setLoading(true);
-    if (claims.janitor && building)
-      console.log("Vaktmester kan ikke være knyttet til building");
+    if (claims.janitor && residentId)
+      console.log("Vaktmester kan ikke være knyttet til residentId");
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -141,7 +148,7 @@ function useFirebaseAuth(): Context {
           .firestore()
           .collection("accounts")
           .doc(response.user.uid)
-          .set({ firm, building });
+          .set({ residentId });
       });
   };
   const updateProfile = async ({
@@ -227,7 +234,7 @@ const formatUser = async (user: {
     .doc(user.uid)
     .get()
     .then((doc) => {
-      const { firm, building } = doc.data();
+      const { residentId } = doc.data();
       return {
         uid: user.uid,
         email: user.email,
@@ -237,8 +244,7 @@ const formatUser = async (user: {
         claims,
         token,
         expirationTime,
-        firm,
-        building,
+        residentId,
       };
     })
     .catch((e) => {
@@ -253,7 +259,6 @@ const formatUser = async (user: {
     claims,
     token,
     expirationTime,
-    firm: null,
-    building: null,
+    residentId: null,
   };
 };

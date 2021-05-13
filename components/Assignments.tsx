@@ -13,14 +13,16 @@ import Spinner from "react-bootstrap/Spinner";
 import usePagination from "../hooks/usePagination";
 import { Assignment } from "../types/types";
 import ChatRoom from "../components/ChatRoom";
+import { useAuth } from "../context/auth";
 
-const Todo: FC<{ buildingId: string }> = ({ buildingId }) => {
+const Todo: FC = () => {
   const [chat, setChat] = useState(false);
+  const { user } = useAuth();
   const [assignments, loaded] = usePagination({
-    query: assignmentQuery(buildingId),
+    query: assignmentQuery(user?.residentId),
   });
   const handelDelete = async (id: string) => {
-    await assignmentRef(buildingId).doc(id).delete();
+    await assignmentRef(user?.residentId).doc(id).delete();
   };
   return (
     <>
@@ -73,8 +75,8 @@ const Todo: FC<{ buildingId: string }> = ({ buildingId }) => {
             </Button>
             {chat ? (
               <ChatRoom
-                messagesRef={assignmentChatRef(buildingId, assignment.id)}
-                query={assignmentChatQuery(buildingId, assignment.id)}
+                messagesRef={assignmentChatRef(user?.residentId, assignment.id)}
+                query={assignmentChatQuery(user?.residentId, assignment.id)}
               />
             ) : null}
           </Card>

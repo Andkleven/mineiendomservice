@@ -1,12 +1,11 @@
 import { useState, FC } from "react";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import Buildings from "../components/Buildings";
-import AddBuilding from "../components/AddBuilding";
+import Residents from "../components/Residents";
+import AddResident from "../components/AddResident";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const Building: FC = () => {
+const Resident: FC = () => {
   const [addCard, setAddCard] = useState(false);
   return (
     <div
@@ -22,35 +21,29 @@ const Building: FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
         }}
       >
-        <Container>
-          <h5 className="text-center text-secondary">
-            Click plus button to add
-          </h5>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingBottom: "10px",
-            }}
+        <h5 className="text-center text-secondary">Click plus button to add</h5>
+        <div
+          style={{
+            paddingBottom: "10px",
+          }}
+        >
+          <Button
+            variant="outline-primary"
+            type="button"
+            className="btn-circle btn-xl"
+            onClick={() => setAddCard(!addCard)}
           >
-            <Button
-              variant="outline-primary"
-              type="button"
-              className="btn-circle btn-xl"
-              onClick={() => setAddCard(!addCard)}
-            >
-              <FontAwesomeIcon icon={addCard ? faMinus : faPlus} />
-            </Button>
-          </div>
-          {addCard ? <AddBuilding setAddCard={setAddCard} /> : null}
-          <Buildings />
-        </Container>
+            <FontAwesomeIcon icon={addCard ? faMinus : faPlus} />
+          </Button>
+        </div>
+        {addCard ? <AddResident setAddCard={setAddCard} /> : null}
+        <Residents />
       </div>
     </div>
   );
 };
 
-export default Building;
+export default Resident;

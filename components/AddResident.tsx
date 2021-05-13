@@ -1,16 +1,9 @@
-import {
-  useCallback,
-  useState,
-  useRef,
-  FC,
-  SetStateAction,
-  Dispatch,
-} from "react";
+import { useCallback, useRef, FC, SetStateAction, Dispatch } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import firebase from "../firebase/clientApp";
-import { buildingRef } from "../fetchData/getData";
+import { residentRef } from "../fetchData/getData";
 
 const AddAssignment: FC<{
   setAddCard: Dispatch<SetStateAction<boolean>>;
@@ -20,7 +13,7 @@ const AddAssignment: FC<{
     async (event) => {
       event.preventDefault();
       const { name, address, municipality, zipCode } = event.target.elements;
-      buildingRef.add({
+      residentRef.add({
         name: name.value,
         address: address.value,
         municipality: municipality.value,
@@ -40,7 +33,7 @@ const AddAssignment: FC<{
             <Form.Control
               type="text"
               name="name"
-              placeholder="Building navn"
+              placeholder="Resident navn"
               required={true}
             />
           </Form.Group>

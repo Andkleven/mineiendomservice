@@ -15,9 +15,8 @@ export default function NavbarCustom() {
       }}
     >
       <Nav>
-        <Link href="/">Home</Link>{" "}
-        <Link href="/janitorAssignment">Caretaker</Link>{" "}
-        <Link href="/building">Building</Link>
+        <Link href="/">vaktmester</Link>{" "}
+        <Link href="/residentAssignment">beboer</Link>{" "}
       </Nav>
 
       <Nav>

@@ -11,8 +11,8 @@ exports.addUserClaims = functions.https.onCall((data, context) => {
   const email = data.email;
   const admin = data.admin || false;
   const janitor = data.janitor || false;
-  const building = data.building || false;
-  return addUserClaims(email, admin, janitor, building).then(() => {
+  const resident = data.resident || false;
+  return addUserClaims(email, admin, janitor, resident).then(() => {
     return {
       result: `Request fulfilled! ${email} is now a admin`,
     };
@@ -23,12 +23,12 @@ async function addUserClaims(
   email: string,
   adminRole: boolean,
   janitor: boolean,
-  building: boolean
+  resident: boolean
 ): Promise<void> {
   const user = await admin.auth().getUserByEmail(email);
   return admin.auth().setCustomUserClaims(user.uid, {
     admin: adminRole,
     janitor,
-    building,
+    resident,
   });
 }
